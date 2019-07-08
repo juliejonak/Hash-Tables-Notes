@@ -1,6 +1,5 @@
 # Hash-Tables-Notes
 
-![Hash Table Example](./HashTableImage.png "Hash Table Example")
 
 
 ## Arrays
@@ -392,7 +391,44 @@ We use arrays when the speed of an index lookup is needed, but linked lists when
 
 The file (also from the Hash Tables Repo but copied here) `compare.py` has a series of tests to compare the time efficiency of different operations with linked lists and arrays.  
 
+On your own, you can experiment with that file to make conclusions about Big O as it relates to both of those data structures in different operations.  
 
+
+## Hash Tables
+
+What are good qualities of a hash function?  
+
+- An input must have a consistent output (always the same) and it's one-way.  
+- Creating the hash should be simple but recreating it going backwards should be effectively impossible. Salting, for example, adds complexity to prevent backwards recreation.  
+- It should be evenly random to avoid collisions
+
+A hash function takes a value and runs a hashing operation onto it.
+
+We can use a string as an index in an array (as a label to assign value to something). Like in this diagram:  
+
+![Hash Table Example](./HashTableImage.png "Hash Table Example")
+
+The string `John Smith` is used as the index `2` in this array, to point to the element bucket `521-1234`.  
+
+A hash table converts the string into an index. We create an oversized array (because memory and storage are cheap, to save computing power) and set the index as a label to the corresponding integer.  
+
+This results in an O(1) run time for finding things in the hash table.  
+
+Imagine if we had a bunch of budget categories. In a spreadsheet, we diagram it with a series of index numbers corresponding to the budget's numerical values. Remembering which column (index) corresponds with which part of the budget would be nearly impossible if there are many categories.  
+
+Using a hash table, we can keep a string reference to each index to make that simpler, like:  
+
+
+| Category      | Index | Budget $$  |
+| ------------- |:-----:| ----------:|
+| Groceries     | 0     |       $500 |
+| Gas Money     | 1     |       $150 |
+| New Clothes   | 2     |       $100 |
+| Pet Supplies  | 3     |        $25 |
+| Toiletries    | 4     |        $50 |
+
+
+For tonight's assignment, avoid re-sizing and handling collisions, which we'll cover in the next lecture.  
 
 
 
