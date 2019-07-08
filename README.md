@@ -1,6 +1,19 @@
 # Hash-Tables-Notes
 
+[Lecture 1: How Arrays Work](#Lecture-I)  
+a. [Arrays](#Arrays)  
+b. [Arrays.py](#Arrays.py)  
+c. [Resizing Arrays](#Resizing-Arrays)  
+d. [Read Arrays](#Read-Arrays)  
+e. [Insert Into Arrays](#Insert-Into-Arrays)  
+f. [Append to Arrays](#Append-to-Arrays)  
+g. [Remove from an Array](#Remove-from-an-Array)  
+h. [Pop Arrays](#Pop-Arrays)  
+i. [Doubly Linked Lists](#Doubly-Linked-Lists)  
+j. [Hash Tables](#Hash-Tables)  
 
+
+# Lecture I
 
 ## Arrays
 
