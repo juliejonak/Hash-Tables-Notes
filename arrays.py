@@ -99,10 +99,25 @@ def array_remove(array, element):
 
 # Remove the element in a given position and return it
 # Then shift every element after that occurrance to fill the gap
-def array_pop():
+def array_pop(array, index):
     # Throw an error if array is out of the current count
-    # Your code here
-    pass
+    if index >= array.count:
+        print("Error: out of points in array_pop")
+        return None
+
+    # Set the return value of the number being popped so it's stored before being removed
+    return_value = array.elements[index]
+
+    # Make a for loop to shift elements over
+    # Start one after the index and end at array.count (because it stops at that given position without including it)
+    for i in range(index + 1, array.count):
+        array.elements[i - 1] = array.elements[i]
+
+    array.count -= 1
+    array.elements[array.count] = None
+
+    return return_value
+
 
 
 # Utility to print an array
@@ -117,15 +132,15 @@ def array_print(array):
     print(string)
 
 
-# # Testing
-# arr = array(1)
+# Testing
+arr = array(1)
 
-# array_insert(arr, "STRING1", 0)
-# array_print(arr)
-# array_pop(arr, 0)
-# array_print(arr)
-# array_insert(arr, "STRING1", 0)
-# array_append(arr, "STRING4")
-# array_insert(arr, "STRING2", 1)
-# array_insert(arr, "STRING3", 2)
-# array_print(arr)
+array_insert(arr, "STRING1", 0)
+array_print(arr)
+array_pop(arr, 0)
+array_print(arr)
+array_insert(arr, "STRING1", 0)
+array_append(arr, "STRING4")
+array_insert(arr, "STRING2", 1)
+array_insert(arr, "STRING3", 2)
+array_print(arr)

@@ -330,6 +330,68 @@ def array_remove(array, element):
 ```
 
 
+## Pop Arrays
+
+We need to remove an element at a given index and then return it; then shift every element after that index to fill in the gap.
+
+First we'll error handle in case the index is not in range. This time, we'll set the error to be `>=` instead of `>` because we can't pop the element after the last index: 
+
+```
+def array_pop(array, index):
+    # Throw an error if array is out of the current count
+    if index >= array.count:
+        print("Error: out of points in array_pop")
+        return None
+```
+
+Now we need to set the return value and shift everything over:  
+
+```
+    # Set the return value of the number being popped so it's stored before being removed
+    return_value = array.elements[index]
+
+    # Make a for loop to shift elements over
+    # Start one after the index and end at array.count (because it stops at that given position without including it)
+    for i in range(index + 1, array.count):
+        array.elements[i - 1] = array.elements[i]
+```
+
+Remember, that `for i in range()` is _inclusive_ of the first given element (the start) and _exclusive_ of the last given element (the end). 
+
+Lastly, we need to update the `count` and set the last element to `None`, then return the requested `return_value`:
+
+```
+def array_pop(array, index):
+    # Throw an error if array is out of the current count
+    if index >= array.count:
+        print("Error: out of points in array_pop")
+        return None
+
+    # Set the return value of the number being popped so it's stored before being removed
+    return_value = array.elements[index]
+
+    # Make a for loop to shift elements over
+    # Start one after the index and end at array.count (because it stops at that given position without including it)
+    for i in range(index + 1, array.count):
+        array.elements[i - 1] = array.elements[i]
+
+    array.count -= 1
+    array.elements[array.count] = None
+
+    return return_value
+```
+
+
+## Doubly Linked Lists
+
+We'll use the `doubly_linked_list.py` file in the [Hash Tables Repo](https://github.com/LambdaSchool/Hash-Tables) -- copied into this repo for simplification.    
+
+When would we use a doubly linked list v a dynamic array?  
+
+We use arrays when the speed of an index lookup is needed, but linked lists when you need to resize the data and don't care about caching.  
+
+The file (also from the Hash Tables Repo but copied here) `compare.py` has a series of tests to compare the time efficiency of different operations with linked lists and arrays.  
+
 
 
 
