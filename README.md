@@ -465,7 +465,6 @@ For [today's assignment](https://github.com/LambdaSchool/Hash-Tables/tree/master
 
 [Hash Tables: Collisions and Resizing Video](https://youtu.be/u38jSupgQvU)  
 
-
 [What are Hashtables and Hashing Algorithms?](http://www.goodmath.org/blog/2013/10/20/basic-data-structures-hash-tables/)  
 
 [3 Common Hash Functions](http://www.cse.yorku.ca/~oz/hash.html)  
@@ -483,4 +482,295 @@ For [today's assignment](https://github.com/LambdaSchool/Hash-Tables/tree/master
 
 [Lecture II Recording]()  
 
-## 
+## Basic Hashtable
+
+Today we'll use the `basic_hashtables.py` file in the [Hash Tables Repo](https://github.com/LambdaSchool/Hash-Tables) -- copied into this repo for simplification. 
+
+Going over the solution, first we need to fill in the class Pair function:  
+
+```
+class Pair:
+    def __init__(self, key, value):
+        self.key = key
+        self.value = value
+```
+
+First, we should take a look at the other code in this file and understand what the assignment's directions are asking us to do. Sometimes it's helpful to run the code too, to see what happens -- both the hashtables file and the test file.  
+
+The first error we'll find is that the test fails in `b_hashtables.py` is that the test passes automatically (it returns `...gone tomorrow (success!)` when it shouldn't yet).  
+
+We could start with the first two functions, but it might be a better strategy to research the hash function. One reason might be that it's a standalone item, but we also need to use the hash function as we create our hash table. This project seems to be dependent upon that function.  
+
+## dbj2
+
+This hash function has several online articles devoted to it. There are a few methods of implementing it. [This article](ttp://www.goodmath.org/blog/2013/10/20/basic-data-structures-hash-tables/) has a Python solution that we can use.  
+
+If we implement it like so...  
+
+```
+def djb2(key):
+    hash = 5381
+    for i in key:
+        print(f'Hash: {hash}, Hash * 33: {hash * 33}, ord(i): {ord(i)}. SUM: {(hash*33)+ord(i)}')
+        hash = (hash * 33) + ord(i)
+    return hash
+
+print(djb2('hip'))
+```
+
+ To understand what's happening inside this hash function, we notice that on each loop, it adds `hash * 33` to the Unicode point of that letter in the string (for example, `b` is 66 in the ASCII character table), and updates hash to that sum.
+
+ Printed into the terminal for 'hip', we get the following:  
+
+ ```
+Hash: 5381, Hash * 33: 177573, ord(i): 104. SUM: 177677
+Hash: 177677, Hash * 33: 5863341, ord(i): 105. SUM: 5863446
+Hash: 5863446, Hash * 33: 193493718, ord(i): 112. SUM: 193493830
+ ```
+
+The return of this hash function is `193493830`, the final sum of each letter being hashed and added to the previous.
+
+
+[Another solution](https://gist.github.com/mengzhuo/180cd6be8ba9e2743753) online is this version:
+
+```
+def hash_djb2(s):                                                                                                                                
+hash = 5381
+for x in s:
+hash = (( hash << 5) + hash) + ord(x)
+return hash & 0xFFFFFFFF
+```
+
+What does `<<` mean in Python?  
+
+[Python wiki](https://wiki.python.org/moin/BitwiseOperators) says:
+
+> x << y  
+> Returns x with the bits shifted to the left by y places (and new bits on the right-hand-side are zeros).   
+> This is the same as multiplying x by 2**y.  
+
+_Good research question -- why do we use 5381 as the starting hash point?_  
+
+<br>
+<br>
+
+Looking at our starter code, there is a significant difference from the online solutions:
+
+```
+def hash(string, max):
+    pass
+```
+
+We have a `max` parameter. What is that for? For now, we'll fill in what we know.
+
+```
+def hash(string, max):
+    hash = 5381
+    for i in string:
+        hash = (( hash << 5) + hash) + ord(i)
+    return hash & 0xFFFFFFFF
+```
+
+What does the single `&` in Python do? 
+
+> x & y  
+> Does a "bitwise and".  
+> Each bit of the output is 1 if the corresponding bit of x AND of y is 1, otherwise it's 0.  
+
+This explanation isn't very clear. How can figure out what it _means_, particularly in our code?  
+
+Let's add some tests into the TESTING function:
+
+```
+print(hash('hello world', 0))
+print(hash('goodbye', 0))
+print(hash('AAA', 0))
+```
+
+This outputs into the terminal:
+
+```
+894552257
+124507022
+193449992
+```
+
+But this still doesn't really tell us what is happening. If we remove ` & 0xFFFFFFFF` from the hash function, the output then becomes:
+
+```
+272131203564429232321
+229467342230414
+193449992
+```
+
+All we can tell from that is it stops returning a set length of number and varies somewhat according to the length of the inputted string.  
+
+With unlimited time, this would be a great research question -- but all we need to do with this hash function is create an index within an array for our hash table. For now, this limited understanding is sufficient.  
+
+`Max` probably needs to be the hash table's capacity -- that is the max size it should be, with our outputted index not being larger than that. So how can we ensure that the output is within bounds?
+
+```
+def hash(string, max):
+    hash = 5381
+    for i in string:
+        hash = (( hash << 5) + hash) + ord(i)
+    return hash % max
+```
+
+By using the `modulo`, we can make sure that the point being chosen is a random spot within the capacity of the hash table.
+
+Now if we print our test strings again:
+
+```
+print(hash('hello world', 601))
+print(hash('goodbye', 10000))
+print(hash('AAA', 355))
+```
+
+The output becomes:
+
+```
+65
+768
+0
+```
+
+
+
+
+## Collisions
+
+How many people do you need in a room, to absolutely guarantee that two of them will have the same birthday?
+
+`366` or one more than the total number of possible days in the year. In the same way, finding two people in NYC with the same number of hairs on their head would only require there being more people in NYC than the average number of hairs on a head.
+
+This is an example of collision.
+
+We need to account for this in our functions by throwing an error if it occurs.  
+
+If two inputs have the same index output, this would be a collision in our hashing functions, resulting in two inputs with the same index, overwriting the first. Obviously, this could be problematic.  
+
+
+## Hash Table
+
+Let's build our hash table next:
+
+```
+class BasicHashTable:
+    def __init__(self, capacity):
+        pass
+
+```
+
+At its core, a hash table is an array (eventually, an array of linked lists).
+
+Let's use our array definition from yesterday:
+
+```
+class BasicHashTable:
+    def __init__(self, capacity):
+        self.capacity = capacity
+        self.count = 0
+        self.storage = [None] * capacity
+```
+
+Next, let's insert things into our hash table, by hashing the key to create an index:
+
+```
+def hash_table_insert(hash_table, key, value):
+    pass
+```
+
+Remember, our max is the capacity of our hash table:
+
+```
+def hash_table_insert(hash_table, key, value):
+    index = hash(key, hash_table.capacity)
+```
+
+We should check to see if there is already an element in the hash table at that index:
+
+```
+def hash_table_insert(hash_table, key, value):
+    index = hash(key, hash_table.capacity)
+    if hash_table.storage[index] is not None:
+        print(f"Warning: Index at {str(index)} is currently ({hash_table.storage[index]}). It will now be overwritten.")
+```
+
+What are we storing at that index? 
+
+We need to store the Pair Class, not just the value. It would be a bad idea to solely store the value because if there is a collision, there might be multiple values stored there. We need to be able to compare the keys so we can grab the _correct_ value.
+
+Later on, we'll solve our collision problem like that. For now, we just want to know for certain that we are having a collision by noting if the keys are the same or not.
+
+```
+def hash_table_insert(hash_table, key, value):
+    index = hash(key, hash_table.capacity)
+    pair = Pair(key, value)
+    stored_pair = hash_table.storage[index]
+```
+
+This adds a way for us to compare the pair we're trying to add to the currently existing pair key value in storage.
+
+```
+def hash_table_insert(hash_table, key, value):
+    index = hash(key, hash_table.capacity)
+    pair = Pair(key, value)
+    stored_pair = hash_table.storage[index]
+
+    if hash_table.storage[index] is not None:
+        if pair.key != stored_pair.key:
+            print(f"Warning: Index at {str(index)} is currently ({hash_table.storage[index]}). It will now be overwritten.")
+
+    # Now lets overwrite it
+    hash_table.storage[index] = pair
+```
+
+This looks good, but we can't test it yet because we haven't written our retrieve function...
+
+In the meantime, we could use our Python debugger with `breakpoint()`:
+
+```
+(Pdb) ht
+<__main__.BasicHashTable object at 0x10c3361d0>
+```
+Pdb is the Python debugger. By writing `ht`, we're calling our hash table named in the test.
+
+This shows us the directory of our hash table.
+
+```
+(Pdb) dir(ht)
+['__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', 'capacity', 'count', 'storage']
+```
+
+We can look at our storage directly like so:
+
+```
+(Pdb) ht.storage
+[<__main__.Pair object at 0x10c336208>, None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
+```
+
+Since we see there is something stored at the first spot in storage, we can check what the value of that is:
+
+```
+(Pdb) ht.storage[0].value
+'Here today...\n'
+```
+
+Our debugger shows that we did successfully add  `Here today...\n`.  
+
+<br>
+<br>
+
+## Retrieval
+
+
+
+
+
+
+
+
+
+
+
