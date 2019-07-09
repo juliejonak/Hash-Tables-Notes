@@ -14,7 +14,7 @@ class Pair:
 class BasicHashTable:
     def __init__(self, capacity):
         self.capacity = capacity
-        self.count = 0
+        # self.count = 0
         self.storage = [None] * capacity
 
 
@@ -63,7 +63,13 @@ def hash_table_insert(hash_table, key, value):
 # If you try to remove a value that isn't there, print a warning.
 # '''
 def hash_table_remove(hash_table, key):
-    pass
+    index = hash(key, hash_table.capacity)
+
+    if (hash_table.storage[index] is None or
+            hash_table.storage[index].key != key):
+        print(f'Unable to remove item with key: {key}')
+    else:
+        hash_table.storage[index] = None
 
 
 # '''
@@ -72,7 +78,15 @@ def hash_table_remove(hash_table, key):
 # Should return None if the key is not found.
 # '''
 def hash_table_retrieve(hash_table, key):
-    pass
+    index = hash(key, hash_table.capacity)
+
+    if hash_table.storage[index] is not None:
+        if hash_table.storage[index].key == key:
+            return hash_table.storage[index].value
+        print(f'Key {key} at that index does not match.')
+
+    print(f'Unable to find value with key: {key}')
+    return None
 
 
 def Testing():
