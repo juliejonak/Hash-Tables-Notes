@@ -11,9 +11,13 @@ g. [Remove from an Array](#Remove-from-an-Array)
 h. [Pop Arrays](#Pop-Arrays)  
 i. [Doubly Linked Lists](#Doubly-Linked-Lists)  
 j. [Hash Tables](#Hash-Tables)  
+k. [Additional Resources](#Lecture-I-Additional-Resources)  
+
 
 
 # Lecture I
+
+[Lecture I Recording](https://www.youtube.com/watch?v=MOonWip19TM&feature=youtu.be)
 
 ## Arrays
 
@@ -211,7 +215,7 @@ We can see our array above has 3 spare spaces at the end of the allocated memory
 
 > 22, 34, 76, 43, 82, xx, 91, xx, xx  
 > 22, 34, 76, 43, xx, 82, 91, xx, xx  
->> 22, 34, 76, xx, 43, 82, 91, xx, xx  
+> 22, 34, 76, xx, 43, 82, 91, xx, xx  
 
 And so on until we get to the index where the new element is being inserted.  
 
@@ -441,7 +445,21 @@ Using a hash table, we can keep a string reference to each index to make that si
 | Toiletries    | 4     |        $50 |
 
 
-For tonight's assignment, avoid re-sizing and handling collisions, which we'll cover in the next lecture.  
+For [today's assignment](https://github.com/LambdaSchool/Hash-Tables/tree/master/basic_hashtable), avoid re-sizing and handling collisions, which we'll cover in the next lecture.  
+
+
+# Lecture I Additional Resources
+
+[Hash Tables: Intro Video](https://youtu.be/z07XGvC9D4c)  
+
+[Hash Tables: Collisions and Resizing Video](https://youtu.be/u38jSupgQvU)  
+
+
+[What are Hashtables and Hashing Algorithms?](http://www.goodmath.org/blog/2013/10/20/basic-data-structures-hash-tables/)  
+
+[3 Common Hash Functions](http://www.cse.yorku.ca/~oz/hash.html)  
+
+[Breaking Down an Efficient Hash Function](http://www.azillionmonkeys.com/qed/hash.html)  
 
 
 

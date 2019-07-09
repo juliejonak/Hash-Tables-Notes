@@ -93,7 +93,7 @@ def array_remove(array, element):
         array.elements[array.count] = None
     
     else: 
-            print(f"Error: {str(element)} not found.")
+        print(f"Error: {str(element)} not found.")
 
 
 
