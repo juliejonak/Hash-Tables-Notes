@@ -563,7 +563,7 @@ For [today's assignment](https://github.com/LambdaSchool/Hash-Tables/tree/master
 
 # Lecture II
 
-[Lecture II Recording]()  
+[Lecture II Recording](https://www.youtube.com/watch?v=b60t_qHXoqA&feature=youtu.be)  
 <br>
 
 ## Basic Hashtable
