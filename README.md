@@ -13,6 +13,17 @@ i. [Doubly Linked Lists](#Doubly-Linked-Lists)
 j. [Hash Tables](#Hash-Tables)  
 k. [Additional Resources](#Lecture-I-Additional-Resources)  
 
+<br>
+<br>
+<br>
+
+[Lecture 2: Hash Tables](#Lecture-II)  
+
+
+<br>
+<br>
+
+If you found these notes helpful and want to show appreciation to the author, [coffee donations](buymeacoff.ee/G1stPBuYU) are much loved.  
 
 
 # Lecture I
@@ -463,5 +474,13 @@ For [today's assignment](https://github.com/LambdaSchool/Hash-Tables/tree/master
 
 
 
+<br>
+<br>
+<br>
+<br>
 
+# Lecture II
 
+[Lecture II Recording]()  
+
+## 
