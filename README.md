@@ -597,7 +597,7 @@ We could start with the first two functions, but it might be a better strategy t
 
 ## dbj2
 
-This hash function has several online articles devoted to it. There are a few methods of implementing it. [This article](ttp://www.goodmath.org/blog/2013/10/20/basic-data-structures-hash-tables/) has a Python solution that we can use.  
+This hash function has several online articles devoted to it. There are a few methods of implementing it. [This article](http://www.goodmath.org/blog/2013/10/20/basic-data-structures-hash-tables/) has a Python solution that we can use.  
 
 If we implement it like so...  
 
