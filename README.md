@@ -30,7 +30,7 @@ g. [Alternate Solutions](#Alternate-Solutions)
 <br>
 <br>
 
-If you found these notes helpful and want to show appreciation to the author, [coffee donations](buymeacoff.ee/G1stPBuYU) are much loved.  
+If you found these notes helpful and want to show appreciation to the author, [coffee donations](https://www.buymeacoffee.com/G1stPBuYU) are much loved.  
 
 
 # Lecture I
